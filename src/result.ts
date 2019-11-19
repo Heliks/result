@@ -26,24 +26,22 @@ export type ControlFlowFn<T, U = string> = () => Result<T, U>;
  *
  * @see https://doc.rust-lang.org/std/result/index.html
  */
-export class Result<OkVal extends any = unknown, ErrVal = string> {
+export class Result<OkVal = any, ErrVal = string> {
 
-    /**
-     * @param type The result type. Can be either "Ok" for a successful result or "Err" for an errored.
-     * @param val The actual value of the result.
-     */
+    constructor(type: ResultType.Ok, val: OkVal);
+    constructor(type: ResultType.Err, val: ErrVal);
     constructor(
         protected readonly type: ResultType,
-        protected readonly val: OkVal
-    ) {}
+        protected readonly val: any
+    )  {}
 
     /** Returns `true` if the result is "ok". */
-    public isOk(): boolean {
+    public isOk(): this is { val: OkVal } {
         return this.type === ResultType.Ok;
     }
 
     /** Returns `true` if the result is an error. */
-    public isErr(): boolean {
+    public isErr(): this is { val: ErrVal } {
         return this.type === ResultType.Err;
     }
 
@@ -158,7 +156,7 @@ export class Result<OkVal extends any = unknown, ErrVal = string> {
             throw new Error(msg);
         }
 
-        return this;
+        return this.val;
     }
 
 }
