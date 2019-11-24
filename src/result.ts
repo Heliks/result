@@ -126,6 +126,17 @@ export class Result<OkVal = any, ErrVal = string> {
     }
 
     /**
+     * Returns the result value if the result is `Ok`. Returns `val` if the
+     * result is an `Err`.
+     *
+     * @param val Fallback value that should be returned if result is `Err`.
+     * @returns Result value or fallback value
+     */
+    public unwrapOr(val: OkVal): OkVal {
+        return this.isErr() ? val : this.val;
+    }
+
+    /**
      * Returns the result value if the result is an error. Throws with the "Ok"
      * value otherwise.
      *
@@ -157,6 +168,35 @@ export class Result<OkVal = any, ErrVal = string> {
         }
 
         return this.val;
+    }
+
+    /**
+     * Returns `true` if the result is `Ok` and matches the given value.
+     *
+     * ```ts
+     * const a = ok('Foo');
+     * const b = err('Bar');
+     *
+     * console.log(a.contains('Foo')); // true
+     * console.log(a.contains('Bar')); // false
+     * console.log(b.contains('Bar')); // false
+     * ```
+     *
+     * @param val The value that the `Ok` value of the result must match.
+     * @returns A boolean indicating if values matched.
+     */
+    public contains(val: OkVal): boolean {
+        return this.isOk() && this.val === val;
+    }
+
+    /**
+     * Returns `true` if the result is `Err` and matches the given value.
+     *
+     * @param val The value that the `Err` value of the result must match.
+     * @returns A boolean indicating if values matched.
+     */
+    public containsErr(val: ErrVal): boolean {
+        return this.isErr() && this.val === val;
     }
 
 }
