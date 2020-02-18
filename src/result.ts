@@ -149,7 +149,7 @@ export class Result<OkVal = any, ErrVal = string> {
    *
    * @see unwrap()
    */
-  public unwrapErr(): OkVal {
+  public unwrapErr(): ErrVal {
     if (this.isOk()) {
       throw new Error(this.val.toString());
     }
