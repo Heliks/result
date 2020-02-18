@@ -1,9 +1,11 @@
 import { Result, ResultType } from './result';
 
-export function ok<T>(value: T): Result<T> {
-    return new Result<T>(ResultType.Ok, value);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function ok<T, R = any>(value: T): Result<T, R> {
+  return new Result<T, R>(ResultType.Ok, value);
 }
 
-export function err<T>(value: T): Result<unknown, T> {
-    return new Result<unknown, T>(ResultType.Err, value);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function err<T, R = any>(value: T): Result<R, T> {
+  return new Result<R, T>(ResultType.Err, value);
 }
